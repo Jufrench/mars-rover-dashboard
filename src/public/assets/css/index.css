@@ -1,0 +1,174 @@
+:root {
+  --body-bg-color: #202532;
+  --text-color: #fff;
+  --box-bg-color: #444854;
+}
+
+.bg {
+  background-color: var(--box-bg-color);
+}
+
+.box {
+  border-radius: 3px;
+  padding: 10px;
+}
+
+/* -------------------  MOBILE  --------------------- */
+
+body {
+  /* display: flex; */
+  /* flex-direction: column; */
+  font-family: Arial;
+  min-height: 100vh;
+  background-color: var(--body-bg-color);
+  color: var(--text-color);
+  padding: 10px;
+}
+
+#root {
+  display: grid;
+  grid-gap: 16px;
+  grid-template-columns: 100%;
+  /* grid-template-areas: "
+  header
+  main
+  footer
+  "; */
+}
+
+header {
+  /* border: 1px solid #ed4337; */
+
+  text-align: center;
+  text-transform: uppercase;
+  /* padding: 10px; */
+}
+
+header h1 {
+  font-size: 1em;
+  margin: 0;
+}
+
+/* MAIN 
+=============================== */
+main {
+  /* border: 1px solid gold; */
+
+  flex: 1;
+  display: grid;
+  grid-gap: 16px;
+  grid-template-columns: 100%;
+}
+
+.main-rover-wrap {
+  /* border: 2px solid #ed4337; */
+}
+
+.active-rover-wrap {
+  /* border: 1px solid #ed4337; */
+  text-align: center;
+  /* font-size: 22px; */
+  text-transform: uppercase;
+}
+
+.active-rover-wrap .active-rover-title {
+  font-size: 1em;
+}
+
+/* ROVER SELECT 
+=============================== */
+.rover-select-wrap {
+  /* display: flex; */
+  /* flex-direction: column; */
+}
+
+.rover-select-wrap .rover-select {
+  text-align: center;
+  border-radius: 3px;
+}
+
+.rover-select-wrap .rover-select input {
+  position: absolute;
+  left: -999999px;
+  pointer-events: none;
+}
+
+.main.rovers-ready .rover-select-wrap .rover-select input {
+  pointer-events: initial;
+}
+
+.rover-select-wrap .rover-select input:checked + .rover-select-label {
+  color: goldenrod;
+  box-shadow: inset 0 0 10px 5px rgba(0, 0, 0, .6);
+  border-color: rgba(204, 204, 204, .2);
+  font-weight: 700;
+}
+
+.rover-select-wrap .rover-select .rover-select-label {
+  border: 1px solid #ccc;
+  width: 100%;
+  padding: 10px;
+  display: block;
+  text-transform: uppercase;
+  border-radius: 3px;
+  opacity: .3;
+  pointer-events: none;
+}
+
+.main.rovers-ready .rover-select-wrap .rover-select .rover-select-label {
+  opacity: 1;
+  pointer-events: initial;
+}
+
+
+/* FOOTER 
+=============================== */
+footer {
+  /* background-color: indianred; */
+}
+
+/* -------------------  TABLET  --------------------- */
+@media (min-width: 768px) {
+  /* use mobile */
+}
+
+/* -------------------  DESKTOP  -------------------- */
+
+@media (min-width: 1224px) {
+  /* use mobile */
+}
+
+/* -------------------  LARGE SCREENS  -------------- */
+
+@media (min-width: 1824px) {
+  /* use mobile */
+}
+
+.images {
+  /* border: 2px solid red !important; */
+  width: 400px;
+}
+
+.images img {
+  width: 400px;
+  height: 300px;
+}
+
+/* .rover-selection input {
+  position: absolute;
+  left: -99999px;
+} */
+
+input:checked + label {
+  color: red;
+}
+
+.rovers-wrap label {
+  color: #ccc;
+  pointer-events: none;
+}
+
+.main.rovers-ready .rovers-wrap label {
+  pointer-events: initial;
+  color: #333;
+}

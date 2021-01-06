@@ -56,6 +56,10 @@ const render = async (root, state) => {
     root.innerHTML = App(state);
 };
 
+{/* <h2 class="active-rover-title">
+${Object.keys(stateObj.activeRover).length === 0 ? '' : stateObj.activeRover.toObject().name }
+</h2> */}
+
 const App = (state) => {
     let { activeRover, rovers, images, apod } = state.toObject();
     const stateObj = state.toObject();
@@ -65,22 +69,20 @@ const App = (state) => {
         <main class="main ${stateObj.rovers_ready === true ? 'rovers-ready' : ''}">
 
             <section class="bg box active-rover-wrap">
-                <h2 class="active-rover-title">
-                    ${Object.keys(stateObj.activeRover).length === 0 ? '' : stateObj.activeRover.toObject().name }
-                </h2>
+                ${ActiveRover(stateObj)}
+                <p>Select rover to get rover data & images</p>
             </section>
 
             <section class="rover-select-wrap">
                 ${RoversWrap(rovers.toArray().map(rover => RoverItem(stateObj, rover)))}
             </section>
 
-            <section class="rover-data">
+            <section class="rover-data bg box">
                 ${Object.keys(stateObj.activeRover).length === 0 ? '' : RoverData(activeRover)}
             </section>
 
             <section class="rover-images">
                 ${ImagesWrap(images.toArray().map(image => Image(image)))}
-                <p>Loading...</p>
             </section>
 
             ${Object.keys(state.toObject().apod).length === 0 ?
@@ -125,6 +127,8 @@ const activateSlickSlider = () => {
         dots: true,
         slidesToShow: 1,
         variableWidth: true,
+        prevArrow: '<button type="button" class="slick-prev"><i class="fas fa-arrow-left"></i></button>',
+        nextArrow: '<button type="button" class="slick-next"><i class="fas fa-arrow-right"></i></button>'
     });
 };
 
@@ -169,6 +173,14 @@ const RoversWrap = (_rovers) => {
     return `${_rovers.join('')}`
 };
 
+const ActiveRover = (_state) => {
+    return `
+        <h2 class="active-rover-title">
+        ${Object.keys(_state.activeRover).length === 0 ? '' : _state.activeRover.toObject().name}
+        </h2>
+    `
+};
+
 const RoverItem = (state, _rover) => {
     // const capitalized = _rover.charAt(0).toUpperCase() + _rover.slice(1);
     let activeRover = '';
@@ -204,13 +216,12 @@ const RoverItem = (state, _rover) => {
 
 const RoverData = (_rover) => {
     _rover = _rover.toObject();
-    console.log('RoverData:', _rover);
     return `
         <ul>
-            <li>Launch Date: ${_rover.launch_date}</li>
-            <li>Landing Date: ${_rover.landing_date}</li>
-            <li>Status: ${_rover.status}</li>
-            <li>Most Recent Photo Date: ${_rover.max_date}</li>
+            <li><span class="title">Launch Date:</span> <span class="stat">${_rover.launch_date}</span></li>
+            <li><span class="title">Landing Date:</span> <span class="stat">${_rover.landing_date}</span></li>
+            <li><span class="title">Status:</span> <span class="stat">${_rover.status}</span></li>
+            <li><span class="title">Most Recent Photo Date:</span> <span class="stat">${_rover.max_date}</span></li>
         </ul>
     `
 };
@@ -320,7 +331,7 @@ const getRoverImages = async () => {
     try {
         const fetchRes = await fetch('http://localhost:3000/image-data').then(res => res.json());
         data = fetchRes;
-        // console.log('%cget images:', 'color: gold', data);
+        console.log('%cget images:', 'color: gold', data);
 
         // updateStore(store, { rovers_data: data });
     } catch (error) {
@@ -369,7 +380,7 @@ const getRoverData = async () => {
 // };
 // ========
 const httpRequests_then_updateStore = _roverObj => {
-    console.log('_roverObj:', _roverObj);
+    // console.log('_roverObj:', _roverObj);
     postRover(_roverObj)
         .then(data => getRoverImages(data))
         .then(image_data => image_data.photos.map(obj => obj.img_src))

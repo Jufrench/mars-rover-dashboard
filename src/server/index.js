@@ -61,9 +61,9 @@ app.get('/apod', async (req, res) => {
 app.get('/rover-data', async (req, res) => {
     // console.log('/// getting rover data ///');
     Promise.all([
-        fetch(`https://api.nasa.gov/mars-photos/api/v1/manifests/curiosity?api_key=H7YQLyhdcjPuAynhSqkRzAag4PIQoHf4IKrLEsVC`),
-        fetch(`https://api.nasa.gov/mars-photos/api/v1/manifests/opportunity?api_key=H7YQLyhdcjPuAynhSqkRzAag4PIQoHf4IKrLEsVC`),
-        fetch(`https://api.nasa.gov/mars-photos/api/v1/manifests/spirit?api_key=H7YQLyhdcjPuAynhSqkRzAag4PIQoHf4IKrLEsVC`)
+        fetch(`https://api.nasa.gov/mars-photos/api/v1/manifests/curiosity?api_key=${process.env.API_KEY}`),
+        fetch(`https://api.nasa.gov/mars-photos/api/v1/manifests/opportunity?api_key=${process.env.API_KEY}`),
+        fetch(`https://api.nasa.gov/mars-photos/api/v1/manifests/spirit?api_key=${process.env.API_KEY}`)
     ]).then(responses => {
         return Promise.all(responses.map(resItem => {
             return resItem.json();
@@ -101,8 +101,16 @@ app.get('/image-data', async (req, res) => {
     // ================
     const { rover, date } = data_store.toObject();
     try {
-        let data = await fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/${rover}/photos?earth_date=${date}&api_key=${process.env.API_KEY}`)
+        let data = await fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/${rover}/photos?earth_date=${date}&page=1&api_key=${process.env.API_KEY}`)
             .then(res => res.json())
+
+            const updated = data.photos.filter((item, index) => {
+                if (index < 7) {
+                    return item;
+                }
+            });
+
+            data.photos = updated;
         res.send(data);
     } catch (err) {
         console.log('error:', err);

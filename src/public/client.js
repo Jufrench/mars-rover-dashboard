@@ -64,34 +64,41 @@ const App = (state) => {
     let { activeRover, rovers, images, apod } = state.toObject();
     const stateObj = state.toObject();
     // console.log('%cstateObj:', 'color:orange', stateObj);
-    console.log('%cImagesWrap(images.toArray()):', 'color:orange', images.toArray());
+    console.log('%cObject.keys(stateObj.activeRover).length', 'color:orange', Object.keys(stateObj.activeRover).length);
     // <section class="bg rover-select-wrap>${Object.keys(stateObj.activeRover).length === 0 ? '' : RoverData(activeRover)}</section>
     return `
-        <header class="bg box header"><h1>Mars Rovers Dashboard</h1></header>
+        <header class="bg box header">
+            <h1>Mars Rovers Dashboard</h1>
+            <p>(Select a rover to get rover data & images)</p>
+        </header>
         <main class="main ${stateObj.rovers_ready === true ? 'rovers-ready' : ''}">
-            <section class="bg box active-rover-wrap">
-                ${ActiveRover(stateObj)}
-                <p>Select rover to get rover data & images</p>
-            </section>
             <section class="rover-select-wrap">
                 ${RoversWrap(rovers.toArray().map(rover => RoverItem(stateObj, rover)))}
             </section>
-            ${Object.keys(stateObj.activeRover).length === 0 ? '' : RoverData(activeRover)}
-            ${images.toArray().length === 0 ? '' :
-                `<section class="rover-images">
-                    ${ImagesWrap(images.toArray().map(image => Image(image)))}
+            ${Object.keys(stateObj.activeRover).length === 0 ? '' :
+                `<section class="bg box active-rover-wrap">
+                    ${ActiveRover(stateObj)}
                 </section>`
             }
+            <section>
+                ${Object.keys(stateObj.activeRover).length === 0 ? '' : RoverData(activeRover)}
+                ${images.toArray().length === 0 ? '' :
+                    `<div class="rover-images">
+                        ${ImagesWrap(images.toArray().map(image => Image(image)))}
+                    </div>`
+                }
+            </section>
             ${Object.keys(state.toObject().apod).length === 0 ?
                 '<p style="text-align: center">Loading apod...</p>' :
                 `<section>
                     <!-- ImageOfTheDay(apod) -->
                     <p class="bg box">Image of the day</p>
-                    <div class="image-of-day" style="height: 350px; background-image: url(${ImageOfTheDay(apod)})"></div>
+                    <div class="image-of-day" style="height: 400px; background-image: url(${ImageOfTheDay(apod)})">
+                        <a href="${ImageOfTheDay(apod)}" target="_blank" class="click-full-photo">Click here to see full photo</a>
+                    </div>
                 </section>`
             }
         </main>
-        <footer class="bg box">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Odit, similique magni! Illo sapiente omnis, et fugit mollitia necessitatibus iure quibusdam quo quisquam blanditiis saepe illum qui totam soluta rerum? Voluptatem!</footer>
     `
 };
 
@@ -175,6 +182,7 @@ const RoversWrap = (_rovers) => {
 };
 
 const ActiveRover = (_state) => {
+    console.log('--- _state ---', _state)
     return `
         <h2 class="active-rover-title">
         ${Object.keys(_state.activeRover).length === 0 ? '' : _state.activeRover.toObject().name}
@@ -218,14 +226,12 @@ const RoverItem = (state, _rover) => {
 const RoverData = (_rover) => {
     _rover = _rover.toObject();
     return `
-        <section class="rover-data bg box">
-            <ul>
+            <ul class="rover-data bg box">
                 <li><span class="title">Launch Date:</span> <span class="stat">${_rover.launch_date}</span></li>
                 <li><span class="title">Landing Date:</span> <span class="stat">${_rover.landing_date}</span></li>
                 <li><span class="title">Status:</span> <span class="stat">${_rover.status}</span></li>
                 <li><span class="title">Most Recent Photo Date:</span> <span class="stat">${_rover.max_date}</span></li>
             </ul>
-        </section>
     `
 };
 

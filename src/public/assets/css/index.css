@@ -42,13 +42,14 @@ header {
   /* border: 1px solid #ed4337; */
 
   text-align: center;
-  text-transform: uppercase;
   /* padding: 10px; */
 }
 
 header h1 {
-  font-size: 1em;
+  font-size: 1.5em;
   margin: 0;
+  margin-bottom: 8px;
+  text-transform: uppercase;
 }
 
 /* MAIN 
@@ -78,9 +79,6 @@ main {
   text-transform: uppercase;
   font-size: 1.5em;
   font-weight: 700;
-  margin-bottom: 6px;
-  border-bottom: 1px solid #ccc;
-  padding-bottom: 6px;
 }
 
 .active-rover-wrap p {
@@ -148,7 +146,7 @@ main {
   
 }
 
-.rover-data ul li .stat {
+.rover-data li .stat {
   color: var(--detail-color);
   font-weight: 700;
   text-transform: capitalize;
@@ -221,6 +219,35 @@ main {
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
+
+
+
+/* IMAGE OF THE DAY 
+=============================== */
+.image-of-day {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.click-full-photo {
+  border: 1px solid #fff;
+  padding: 6px;
+  border-radius: 3px;
+  color: white;
+  text-decoration: none;
+  display: none;
+}
+
+.image-of-day:hover .click-full-photo {
+  display: block;
+}
+
+.click-full-photo:hover {
+  background-color: rgba(0, 0, 0, .4);
+  cursor: pointer;
+}
+
 
 /* FOOTER 
 =============================== */

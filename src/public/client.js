@@ -96,6 +96,7 @@ const App = (state) => {
                     <div class="image-of-day" style="height: 400px; background-image: url(${ImageOfTheDay(apod)})">
                         <a href="${ImageOfTheDay(apod)}" target="_blank" class="click-full-photo">Click here to see full photo</a>
                     </div>
+                    <p>${apod.explanation}</p>
                 </section>`
             }
         </main>

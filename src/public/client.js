@@ -63,31 +63,32 @@ ${Object.keys(stateObj.activeRover).length === 0 ? '' : stateObj.activeRover.toO
 const App = (state) => {
     let { activeRover, rovers, images, apod } = state.toObject();
     const stateObj = state.toObject();
+    // console.log('%cstateObj:', 'color:orange', stateObj);
+    console.log('%cImagesWrap(images.toArray()):', 'color:orange', images.toArray());
     // <section class="bg rover-select-wrap>${Object.keys(stateObj.activeRover).length === 0 ? '' : RoverData(activeRover)}</section>
     return `
         <header class="bg box header"><h1>Mars Rovers Dashboard</h1></header>
         <main class="main ${stateObj.rovers_ready === true ? 'rovers-ready' : ''}">
-
             <section class="bg box active-rover-wrap">
                 ${ActiveRover(stateObj)}
                 <p>Select rover to get rover data & images</p>
             </section>
-
             <section class="rover-select-wrap">
                 ${RoversWrap(rovers.toArray().map(rover => RoverItem(stateObj, rover)))}
             </section>
-
-            <section class="rover-data bg box">
-                ${Object.keys(stateObj.activeRover).length === 0 ? '' : RoverData(activeRover)}
-            </section>
-
-            <section class="rover-images">
-                ${ImagesWrap(images.toArray().map(image => Image(image)))}
-            </section>
-
+            ${Object.keys(stateObj.activeRover).length === 0 ? '' : RoverData(activeRover)}
+            ${images.toArray().length === 0 ? '' :
+                `<section class="rover-images">
+                    ${ImagesWrap(images.toArray().map(image => Image(image)))}
+                </section>`
+            }
             ${Object.keys(state.toObject().apod).length === 0 ?
-                '<p>Loading apod...</p>' :
-                ImageOfTheDay(apod)
+                '<p style="text-align: center">Loading apod...</p>' :
+                `<section>
+                    <!-- ImageOfTheDay(apod) -->
+                    <p class="bg box">Image of the day</p>
+                    <div class="image-of-day" style="height: 350px; background-image: url(${ImageOfTheDay(apod)})"></div>
+                </section>`
             }
         </main>
         <footer class="bg box">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Odit, similique magni! Illo sapiente omnis, et fugit mollitia necessitatibus iure quibusdam quo quisquam blanditiis saepe illum qui totam soluta rerum? Voluptatem!</footer>
@@ -217,16 +218,19 @@ const RoverItem = (state, _rover) => {
 const RoverData = (_rover) => {
     _rover = _rover.toObject();
     return `
-        <ul>
-            <li><span class="title">Launch Date:</span> <span class="stat">${_rover.launch_date}</span></li>
-            <li><span class="title">Landing Date:</span> <span class="stat">${_rover.landing_date}</span></li>
-            <li><span class="title">Status:</span> <span class="stat">${_rover.status}</span></li>
-            <li><span class="title">Most Recent Photo Date:</span> <span class="stat">${_rover.max_date}</span></li>
-        </ul>
+        <section class="rover-data bg box">
+            <ul>
+                <li><span class="title">Launch Date:</span> <span class="stat">${_rover.launch_date}</span></li>
+                <li><span class="title">Landing Date:</span> <span class="stat">${_rover.landing_date}</span></li>
+                <li><span class="title">Status:</span> <span class="stat">${_rover.status}</span></li>
+                <li><span class="title">Most Recent Photo Date:</span> <span class="stat">${_rover.max_date}</span></li>
+            </ul>
+        </section>
     `
 };
 
 const ImagesWrap = (_images) => {
+    console.log('%c_images:', 'color:dodgerblue', _images)
     return `
         <div class="images">${_images.join('')}</div>
     `
@@ -240,6 +244,7 @@ const Image = (_image) => {
 
 // Example of a pure function that renders infomation requested from the backend
 const ImageOfTheDay = (_apod) => {
+    console.log('%c_apod', 'color:limegreen', _apod)
     // _apod = _apod.toObject();
 
         // If image does not already exist, or it is not from today -- request it again
@@ -252,6 +257,12 @@ const ImageOfTheDay = (_apod) => {
             getImageOfTheDay(store);
         }
 
+        if (_apod.hasOwnProperty('error')) {
+            return (`
+                <p style="text-align: center"><span style="color:red">Error: </span><span>${_apod.error.message}</span></p>
+            `)
+        }
+
         // check if the photo of the day is actually type video!
         if (_apod.media_type === "video") {
             return (`
@@ -260,9 +271,10 @@ const ImageOfTheDay = (_apod) => {
                 <p>${_apod.explanation}</p>
             `)
         } else {
+            // <img src="${_apod.url}" height="350px" width="100%" alt="Astrology photo of the day" />
+            // <p>${_apod.explanation}</p>
             return (`
-                <img src="${_apod.url}" height="350px" width="100%" alt="Astrology photo of the day" />
-                <p>${_apod.explanation}</p>
+                ${_apod.url}
             `)
         }
     // }

@@ -2,6 +2,7 @@
   --body-bg-color: #202532;
   --text-color: #fff;
   --box-bg-color: #444854;
+  --box-bg-hover-color: #363943;
   --detail-color: goldenrod;
 }
 
@@ -83,7 +84,7 @@ main {
 }
 
 .active-rover-wrap p {
-  color: indianred;
+  /* color: goldenrod; */
 }
 
 /* ROVER SELECT 
@@ -113,6 +114,12 @@ main {
   box-shadow: inset 0 0 10px 5px rgba(0, 0, 0, .6);
   border-color: rgba(204, 204, 204, .2);
   font-weight: 700;
+  color: goldenrod;
+}
+
+.rover-select-wrap .rover-select :not(input:checked) + .rover-select-label:hover {
+  cursor: pointer;
+  background-color: var(--box-bg-hover-color);
 }
 
 .rover-select-wrap .rover-select .rover-select-label {
@@ -149,12 +156,8 @@ main {
 
 /* ROVER IMAGES 
 =============================== */
-.rover-images {
-  border: 1px solid red;
-}
-
 .rover-images .images {
-  border: 1px solid gold;
+  /* border: 1px solid gold; */
 
   width: 100%;
 }

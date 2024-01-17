@@ -18,8 +18,6 @@
 /* -------------------  MOBILE  --------------------- */
 
 body {
-  /* display: flex; */
-  /* flex-direction: column; */
   font-family: Arial;
   min-height: 100vh;
   background-color: var(--body-bg-color);
@@ -31,18 +29,10 @@ body {
   display: grid;
   grid-gap: 16px;
   grid-template-columns: 100%;
-  /* grid-template-areas: "
-  header
-  main
-  footer
-  "; */
 }
 
 header {
-  /* border: 1px solid #ed4337; */
-
   text-align: center;
-  /* padding: 10px; */
 }
 
 header h1 {
@@ -55,8 +45,6 @@ header h1 {
 /* MAIN 
 =============================== */
 main {
-  /* border: 1px solid gold; */
-
   flex: 1;
   display: grid;
   grid-gap: 16px;
@@ -65,14 +53,8 @@ main {
 
 /* ACTIVE ROVER TITLE 
 =============================== */
-.main-rover-wrap {
-  /* border: 2px solid #ed4337; */
-}
-
 .active-rover-wrap {
-  /* border: 1px solid #ed4337; */
   text-align: center;
-  /* font-size: 22px; */
 }
 
 .active-rover-wrap .active-rover-title {
@@ -81,17 +63,8 @@ main {
   font-weight: 700;
 }
 
-.active-rover-wrap p {
-  /* color: goldenrod; */
-}
-
 /* ROVER SELECT 
 =============================== */
-.rover-select-wrap {
-  /* display: flex; */
-  /* flex-direction: column; */
-}
-
 .rover-select-wrap .rover-select {
   text-align: center;
   border-radius: 3px;
@@ -108,7 +81,6 @@ main {
 }
 
 .rover-select-wrap .rover-select input:checked + .rover-select-label {
-  /* color: var(--detail-color); */
   box-shadow: inset 0 0 10px 5px rgba(0, 0, 0, .6);
   border-color: rgba(204, 204, 204, .2);
   font-weight: 700;
@@ -142,10 +114,6 @@ main {
   color: #fff;
 }
 
-.rover-data ul li {
-  
-}
-
 .rover-data li .stat {
   color: var(--detail-color);
   font-weight: 700;
@@ -155,8 +123,6 @@ main {
 /* ROVER IMAGES 
 =============================== */
 .rover-images .images {
-  /* border: 1px solid gold; */
-
   width: 100%;
 }
 
@@ -249,10 +215,13 @@ main {
   cursor: pointer;
 }
 
+.images {
+  width: 400px;
+}
 
-/* FOOTER 
-=============================== */
-footer {
+.images img {
+  width: 400px;
+  height: 300px;
 }
 
 /* -------------------  TABLET  --------------------- */
@@ -270,13 +239,4 @@ footer {
 
 @media (min-width: 1824px) {
   /* use mobile */
-}
-
-.images {
-  width: 400px;
-}
-
-.images img {
-  width: 400px;
-  height: 300px;
 }
